@@ -1,28 +1,3 @@
-// =====================================================================
-// fpga_top.sv
-// Top-level integration of window_gen_3x3 -> compute_top -> output_buffer.
-//
-// window_gen_3x3 streams PAR parallel 3x3 windows per cycle from an
-// on-chip image memory. compute_top instantiates PAR mac_unit lanes
-// that each consume one 3x3 window and produce one output pixel.
-// output_buffer captures every group as it's produced (pixel_out is
-// otherwise overwritten every cycle) so the full result map can be
-// read back after 'done', at whatever pace software wants.
-//
-// Reset polarity note: window_gen_3x3 uses an active-low async reset
-// (rst_n), while compute_top uses an active-high reset (rst). This
-// module takes rst_n as the single reset input and derives the
-// active-high version for compute_top.
-//
-// Buffer timing note: mac_unit registers its result, so pixel_out at
-// cycle T reflects the window that was on window_gen_3x3's inputs at
-// cycle T-1. busy/row_o/col_base_o are combinational descriptions of
-// THAT input-side cycle, so they're delayed by one clock (busy_q,
-// row_o_q, col_base_o_q below) before being used as the buffer's
-// write-enable/address -- otherwise every stored word would be
-// tagged with the position of the NEXT group, not the one it holds.
-// =====================================================================
-
 module fpga_top #(
     parameter int IMG_W        = 28,
     parameter int IMG_H        = 28,
