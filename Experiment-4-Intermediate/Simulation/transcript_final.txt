@@ -1,0 +1,3 @@
+# TEST PASSED: 50 pixel values checked, 0 mismatches.
+# ** Note: $finish    : F:/project_4_buildx/verilog iterations/iteration_1/tb_fpga_top.sv(212)
+#    Time: 1075 ps  Iteration: 1  Instance: /tb_fpga_top
